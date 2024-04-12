@@ -81,10 +81,10 @@ const login = async (req , res) => {
 const logout = (req,res) => {
     try {
         res.cookie('token' , "" , {maxAge : 0})
-        res.status(200).json({message : "Logout successFully"})
+        return res.status(200).json({message : "Logout successFully"})
     } catch (error) {
         console.log("Error in Logout controller" , error.message)
-        res.status(500).json({error : "Internal server error"})
+        return res.status(500).json({error : "Internal server error"})
     }
 }
 
