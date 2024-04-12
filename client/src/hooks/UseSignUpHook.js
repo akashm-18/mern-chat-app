@@ -26,6 +26,7 @@ const UseSignUpHook = () => {
       localStorage.setItem("chat-user" , JSON.stringify(data))
       // updating in the context
       setAuthUser(data)
+      toast.success("Signed up successfully")
 
     } catch (error) {
       toast.error(error.message || "Error while signup")
