@@ -4,15 +4,15 @@ import generateTokenAndCookie from "../utilis/generateToken.js";
 
 const signup = async (req , res) => {
     try {
-        const { fullName , username , password , confirmPassword , gender } = req.body;
+        const { fullName , username , password , confirmpassword , gender } = req.body;
 
-        if (password != confirmPassword) {
-        res.status(400).json({error : "Passwords dont match"})    
+        if (password !== confirmpassword) {
+        return res.status(400).json({error : "Passwords don't match"})    
         }
 
         const alreadyUser = await User.findOne({username})
         if (alreadyUser) {
-            res.status(400).json({error : "Username already exists"})
+            return res.status(400).json({error : "Username already exists"})
         }
 
         const hashedPassword = await bcrypt.hashSync(password , 10)
@@ -39,12 +39,12 @@ const signup = async (req , res) => {
             })
         }
         else {
-            res.status(400).json({error : "Invalid user data"})
+            return res.status(400).json({error : "Invalid user data"})
         }
 
     } catch (error) {
         console.log("Error in signup controller" , error.message)
-        res.status(500).json({error : "Internal server Error"})
+        return res.status(500).json({error : "Internal server Error"})
     }
 }
 
