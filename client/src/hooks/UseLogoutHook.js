@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { useAuthContext } from '../context/AuthContext.jsx'
 import toast from 'react-hot-toast'
+import useConversation from '../zustand/useConversation.js'
 
 const UseLogoutHook = () => {
+  const {setSelectedConversation} = useConversation()
   const [loading , setLoading] = useState(false)
   const {setAuthUser} = useAuthContext()
 
@@ -10,7 +12,7 @@ const UseLogoutHook = () => {
     setLoading(true)
 
     try {
-        const res = await fetch("http://localhost:3000/api/auth/logout" , {
+        const res = await fetch("/api/auth/logout" , {
             method : "POST",
             headers : { "Content-Type" : "application/json" },
         })
@@ -23,6 +25,9 @@ const UseLogoutHook = () => {
         // Remove user from localstorage
         localStorage.removeItem("chat-user")
         setAuthUser(null)
+
+        // one way but i unmount the component 
+        // setSelectedConversation(null)
 
     } catch (error) {
         toast.error("error.message")

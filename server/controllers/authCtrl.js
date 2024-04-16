@@ -1,6 +1,6 @@
 import User from "../modals/userModal.js";
 import bcrypt from 'bcryptjs'
-import generateTokenAndCookie from "../utilis/generateToken.js";
+import generateTokenAndSetCookie from "../utilis/generateToken.js";
 
 const signup = async (req , res) => {
     try {
@@ -29,7 +29,9 @@ const signup = async (req , res) => {
         })
 
         if (newUser) {
-            generateTokenAndCookie(newUser._id , res)
+            // generateToken(newUser._id , res)
+            await generateTokenAndSetCookie(newUser._id , res)
+            console.log(req.cookies)
             await newUser.save()
             res.status(201).json({
                 _id : newUser._id,
@@ -63,7 +65,8 @@ const login = async (req , res) => {
             return res.status(400).json({error : "password wrong"})
         }
 
-        generateTokenAndCookie(user._id , res)
+        await generateTokenAndSetCookie(user._id , res)
+        console.log(req.cookies)
 
         res.status(200).json({
             _id : user._id,
@@ -80,7 +83,7 @@ const login = async (req , res) => {
 
 const logout = (req,res) => {
     try {
-        res.cookie('token' , "" , {maxAge : 0})
+        res.cookie("jwt" , "" , {maxAge : 0})
         return res.status(200).json({message : "Logout successFully"})
     } catch (error) {
         console.log("Error in Logout controller" , error.message)
