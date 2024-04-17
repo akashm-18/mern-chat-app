@@ -17,7 +17,7 @@ export const SocketContextProvider = ({children}) => {
     useEffect(() => {
         if (authuser) {
             // creates the connection
-            const socket = io("http://localhost:3000" , {
+            const socket = io("https://mern-chat-app-akashm.onrender.com/" , {
                 query : {
                     userId : authuser._id
                 }
